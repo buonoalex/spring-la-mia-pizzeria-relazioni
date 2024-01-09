@@ -1,0 +1,10 @@
+body{
+    background-image: url('https://img.freepik.com/free-vector/set-cartoon-pizzas-with-different-stuffing-flat-illustration_74855-16934.jpg?w=826&t=st=1704807340~exp=1704807940~hmac=883eca05973d5817260bc68a3a7d11712df610395205e3cf4dcbfd20e50b3bde');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    margin: 0;
+    align-items: center;
+    display:flex;
+    justify-content:center;
+}

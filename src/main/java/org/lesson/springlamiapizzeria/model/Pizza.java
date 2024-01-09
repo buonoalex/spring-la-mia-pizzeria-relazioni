@@ -1,10 +1,12 @@
 package org.lesson.springlamiapizzeria.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 
 import java.math.BigDecimal;
+import java.sql.Blob;
 
 @Entity
 public class Pizza {
@@ -13,7 +15,8 @@ public class Pizza {
     private String name;
     @Lob
     private String description;
-    private String pictureUrl;
+    private Blob pictureUrl;
+    @Column(nullable = false)
     private BigDecimal price;
 
     //Costruttori utilizziamo quello di default
@@ -37,11 +40,11 @@ public class Pizza {
         this.description = description;
     }
 
-    public String getPictureUrl() {
+    public Blob getPictureUrl() {
         return pictureUrl;
     }
 
-    public void setPictureUrl(String pictureUrl) {
+    public void setPictureUrl(Blob pictureUrl) {
         this.pictureUrl = pictureUrl;
     }
 
