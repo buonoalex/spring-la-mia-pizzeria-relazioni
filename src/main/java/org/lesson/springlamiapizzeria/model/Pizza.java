@@ -6,7 +6,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 
 import java.math.BigDecimal;
-import java.sql.Blob;
 
 @Entity
 public class Pizza {
@@ -15,7 +14,7 @@ public class Pizza {
     private String name;
     @Lob
     private String description;
-    private Blob pictureUrl;
+    private String picture_url;
     @Column(nullable = false)
     private BigDecimal price;
 
@@ -40,12 +39,12 @@ public class Pizza {
         this.description = description;
     }
 
-    public Blob getPictureUrl() {
-        return pictureUrl;
+    public String getPictureUrl() {
+        return picture_url;
     }
 
-    public void setPictureUrl(Blob pictureUrl) {
-        this.pictureUrl = pictureUrl;
+    public void setPictureUrl(String pictureUrl) {
+        this.picture_url = pictureUrl;
     }
 
     public BigDecimal getPrice() {
