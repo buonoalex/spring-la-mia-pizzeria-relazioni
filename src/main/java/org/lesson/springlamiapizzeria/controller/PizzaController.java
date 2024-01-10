@@ -1,14 +1,15 @@
 package org.lesson.springlamiapizzeria.controller;
 
+import jakarta.validation.Valid;
 import org.lesson.springlamiapizzeria.model.Pizza;
 import org.lesson.springlamiapizzeria.repository.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -50,4 +51,28 @@ public class PizzaController {
         }
     }
 
+    @GetMapping("/create")
+    public String addPizza(Model model) {
+        Pizza pizza = new Pizza();
+        model.addAttribute("pizza", pizza);
+        return "pizza/createPizza";
+    }
+
+    @PostMapping("/create")
+    public String store(@Valid @ModelAttribute("pizza") Pizza userPizza, BindingResult bindingResult) {
+        // valido i dati del Book, cioè verifico se la mappa BindingResult ha errori
+        if (bindingResult.hasErrors()) {
+            return "pizza/createPizza";
+        }
+        Optional<Pizza> pizzaWithName = bookRepository.findByName(userPizza.getName());
+        if (pizzaWithName.isPresent()) {
+            // se esiste già ritorno un errore
+            bindingResult.addError(new FieldError("pizza", "name", userPizza.getName(), false, null, null,
+                    "il nome della pizza già è presente nel menu'"));
+            return "pizza/createPizza";
+        } else {
+            Pizza savedPizza = bookRepository.save(userPizza);
+            return "redirect:/home/pizzaList/details/" + savedPizza.getName();
+        }
+    }
 }

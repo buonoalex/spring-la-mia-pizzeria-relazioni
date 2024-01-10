@@ -4,18 +4,27 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotEmpty;
 
 import java.math.BigDecimal;
 
 @Entity
 public class Pizza {
     //Attributi
+
     @Id
+    @NotEmpty(message = "Il nome della pizza è obbligatorio")
     private String name;
     @Lob
+    @Column(nullable = false)
+    @NotEmpty(message = "la descrizione della pizza è obbligatoria")
     private String description;
     private String picture_url;
     @Column(nullable = false)
+    @DecimalMin(value = "0", message = "il prezzo non può essere minore di 0")
+    @DecimalMax(value = "15", message = "il prezzo non può essere maggiore di 15")
     private BigDecimal price;
 
     //Costruttori utilizziamo quello di default
