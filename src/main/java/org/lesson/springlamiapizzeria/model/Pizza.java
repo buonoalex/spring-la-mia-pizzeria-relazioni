@@ -39,12 +39,12 @@ public class Pizza {
         this.description = description;
     }
 
-    public String getPictureUrl() {
+    public String getPicture_url() {
         return picture_url;
     }
 
-    public void setPictureUrl(String pictureUrl) {
-        this.picture_url = pictureUrl;
+    public void setPicture_url(String picture_url) {
+        this.picture_url = picture_url;
     }
 
     public BigDecimal getPrice() {
