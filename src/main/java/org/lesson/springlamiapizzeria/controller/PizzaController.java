@@ -20,13 +20,13 @@ import java.util.Optional;
 public class PizzaController {
 
     @Autowired
-    private PizzaRepository bookRepository;
+    private PizzaRepository pizzaRepository;
 
     @GetMapping
     public String pizzaList(Model model) {
 
         // recupero la lista di libri dal database
-        List<Pizza> pizzaList = bookRepository.findAll();
+        List<Pizza> pizzaList = pizzaRepository.findAll();
 
         // aggiungo la lista di libri agli attributi del Model
         model.addAttribute("pizzaList", pizzaList);
@@ -36,7 +36,7 @@ public class PizzaController {
 
     @GetMapping("/details/{name}")
     public String pizzaDetail(@PathVariable String name, Model model) {
-        Optional<Pizza> result = bookRepository.findById(name);
+        Optional<Pizza> result = pizzaRepository.findById(name);
         // verifico se il Book è stato trovato
         if (result.isPresent()) {
             // estraggo il Book dall'Optional
@@ -64,15 +64,42 @@ public class PizzaController {
         if (bindingResult.hasErrors()) {
             return "pizza/createPizza";
         }
-        Optional<Pizza> pizzaWithName = bookRepository.findByName(userPizza.getName());
+        Optional<Pizza> pizzaWithName = pizzaRepository.findByName(userPizza.getName());
         if (pizzaWithName.isPresent()) {
             // se esiste già ritorno un errore
             bindingResult.addError(new FieldError("pizza", "name", userPizza.getName(), false, null, null,
                     "il nome della pizza già è presente nel menu'"));
             return "pizza/createPizza";
         } else {
-            Pizza savedPizza = bookRepository.save(userPizza);
+            Pizza savedPizza = pizzaRepository.save(userPizza);
             return "redirect:/home/pizzaList/details/" + savedPizza.getName();
         }
     }
+
+    @GetMapping("/edit/{name}")
+    public String edit(@PathVariable String name, Model model) {
+        Optional<Pizza> pizzaEdit = pizzaRepository.findByName(name);
+        if (pizzaEdit.isPresent()) {
+            model.addAttribute("pizza", pizzaEdit.get());
+            return "pizza/editPizza";
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PostMapping("/edit/{name}")
+    public String updatePizza(@PathVariable String name, @Valid @ModelAttribute("pizza") Pizza userPizza, BindingResult bindingResult) {
+        //Verificare se sono validi
+        if (bindingResult.hasErrors()) {
+            return "pizza/editPizza";
+        } else {
+            Optional<Pizza> pizzaEdit = pizzaRepository.findByName(name);
+            Pizza pizzaToEdit = pizzaEdit.get();
+            pizzaRepository.deleteById(pizzaToEdit.getName());
+            Pizza modifyPizza = pizzaRepository.save(userPizza);
+            return "redirect:/home/pizzaList/details/" + modifyPizza.getName();
+        }
+    }
+
+
 }
