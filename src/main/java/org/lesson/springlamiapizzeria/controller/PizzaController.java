@@ -11,7 +11,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,10 +25,16 @@ public class PizzaController {
     private PizzaRepository pizzaRepository;
 
     @GetMapping
-    public String pizzaList(Model model) {
+    public String pizzaList(@RequestParam(required = false) String nameFind, @RequestParam(required = false) BigDecimal numberFind, Model model) {
+        List<Pizza> pizzaList = null;
 
-        // recupero la lista di libri dal database
-        List<Pizza> pizzaList = pizzaRepository.findAll();
+        if ((nameFind != null) && (numberFind == null)) {
+            pizzaList = pizzaRepository.findByNameContaining(nameFind);
+        } else if (numberFind != null && nameFind.isBlank()) {
+            pizzaList = pizzaRepository.findByPriceLessThanEqual(numberFind);
+        } else {
+            pizzaList = pizzaRepository.findAll();
+        }
 
         // aggiungo la lista di libri agli attributi del Model
         model.addAttribute("pizzaList", pizzaList);
@@ -102,4 +110,11 @@ public class PizzaController {
     }
 
 
+    @PostMapping("/delete/{name}")
+    public String deletePizza(@PathVariable String name, RedirectAttributes redirectAttributes) {
+        pizzaRepository.deleteById(name);
+        redirectAttributes.addFlashAttribute("redirectAttribute", "La pizza" + name + "è stato cancellato correttamente");
+        return "redirect:/home/pizzaList";
+
+    }
 }

@@ -18,6 +18,18 @@
             <hr>
             <h3>Pizza List</h3>
             <hr>
+            <div class="row mb-3">
+                <form th:action="@{/home/pizzaList}" class="col-12 " method="get"
+                      id="search-pizza">
+                    <div class="input-group">
+                        <input class="form-control" type="text" name="nameFind" id="nameFind"
+                               placeholder="Cerca la tua pizza per nome" th:value="${param.nameFind}">
+                        <input class="form-control" type="number" name="numberFind" id="numberFind"
+                               placeholder="Inserisci il max prezzo(8,50)" th:value="${param.numberFind}" step="any">
+                        <button class="btn btn-primary" type="submit">Cerca</button>
+                    </div>
+                </form>
+            </div>
             <div class="alert alert-info" th:if="${pizzaList.size() == 0}">The list is empty</div>
             <table class="table bg-light" th:unless="${pizzaList.size() == 0}">
                 <thead>

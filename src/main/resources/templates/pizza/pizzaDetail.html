@@ -20,9 +20,19 @@
             <p class="card-text" th:text="*{description}"></p>
             <p class="card-text" th:text="*{price + '$'}"></p>
             <div class="row gy-2">
-                <a th:href="@{/home/pizzaList}" class="btn btn-primary">Ritorna al menu'</a>
-                <a th:href="@{/home/pizzaList/edit/{name}(name=${pizza.name})}" class="btn btn-primary">Modifica
-                    pizza</a>
+                <div>
+                    <a th:href="@{/home/pizzaList}" class="btn btn-primary col-12">Ritorna al menu'</a>
+                </div>
+                <div>
+                    <a th:href="@{/home/pizzaList/edit/{name}(name=${pizza.name})}" class="btn btn-primary col-12">Modifica
+                        pizza</a>
+                </div>
+                <form th:action="@{/home/pizzaList/delete/{name}(name=${pizza.name})}"
+                      method="post" onsubmit="return confirm('Sei sicuro di voler eliminare la pizza')">
+                    <button class="btn btn-primary col-12" type="submit">
+                        Elimina la pizza
+                    </button>
+                </form>
             </div>
         </div>
     </div>

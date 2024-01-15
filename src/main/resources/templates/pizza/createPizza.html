@@ -32,7 +32,7 @@
         <div class="col-md-12 col-12 pb-3">
             <label for="description" class="form-label">Descrivi la tua pizza</label>
             <textarea cols="6" rows="3" id="description" class="form-control" th:field="*{description}"
-                      th:errorClass="is-invalid"></textarea>
+                      th:errorClass="is-invalid" placeholder="Pizza con pomodoro ecc....."></textarea>
             <div class="invalid-feedback" th:if="${#fields.hasErrors('description')}">
                 <ul>
                     <li th:each="err : ${#fields.errors('description')}" th:text="${err}"></li>
@@ -54,7 +54,7 @@
 
         <div class="col-md-3 col-12 pb-3">
             <label for="price" class="form-label">Prezzo</label>
-            <input type="number" class="form-control" id="price" placeholder="5,00$" th:field="*{price}"
+            <input type="number" class="form-control" id="price" placeholder="5,00" th:field="*{price}"
                    th:errorClass="is-invalid" step="any">
             <div class="invalid-feedback" th:if="${#fields.hasErrors('price')}">
                 <ul>
