@@ -1,14 +1,12 @@
 package org.lesson.springlamiapizzeria.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotEmpty;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 public class Pizza {
@@ -26,6 +24,11 @@ public class Pizza {
     @DecimalMin(value = "0", message = "il prezzo non può essere minore di 0")
     @DecimalMax(value = "15", message = "il prezzo non può essere maggiore di 15")
     private BigDecimal price;
+
+    //Relazioni
+
+    @OneToMany(mappedBy = "pizza")
+    private List<Offerta> OffertaList;
 
     //Costruttori utilizziamo quello di default
 
@@ -62,5 +65,13 @@ public class Pizza {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public List<Offerta> getOffertaList() {
+        return OffertaList;
+    }
+
+    public void setOffertaList(List<Offerta> offertaList) {
+        OffertaList = offertaList;
     }
 }

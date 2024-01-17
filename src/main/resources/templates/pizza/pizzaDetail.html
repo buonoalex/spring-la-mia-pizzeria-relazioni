@@ -33,6 +33,10 @@
                         Elimina la pizza
                     </button>
                 </form>
+                <div>
+                    <a th:href="@{/home/offerta/create/{name}(name=${pizza.name})}" class="btn btn-primary col-12">Aggiungi
+                        offerta</a>
+                </div>
             </div>
         </div>
     </div>

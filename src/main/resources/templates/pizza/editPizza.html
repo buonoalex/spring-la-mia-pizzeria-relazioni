@@ -65,7 +65,8 @@
 
         <div class="col-md-6 col-12 pb-3">
             <button class="btn btn-primary" type="submit">Modifica</button>
-            <a class="btn btn-primary" th:href="@{/home}">Torna alla home</a>
+            <a class="btn btn-primary" th:href="@{/home/pizzaList/details/{name}(name=${pizza.name})}">Torna ai
+                dettagli</a>
         </div>
     </div>
 
