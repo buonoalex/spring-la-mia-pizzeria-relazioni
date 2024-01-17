@@ -2,6 +2,7 @@ package org.lesson.springlamiapizzeria.controller;
 
 import jakarta.validation.Valid;
 import org.lesson.springlamiapizzeria.model.Pizza;
+import org.lesson.springlamiapizzeria.repository.OffertaRepository;
 import org.lesson.springlamiapizzeria.repository.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,9 @@ public class PizzaController {
 
     @Autowired
     private PizzaRepository pizzaRepository;
+
+    @Autowired
+    private OffertaRepository offertaRepository;
 
     @GetMapping
     public String pizzaList(@RequestParam(required = false) String nameFind, @RequestParam(required = false) BigDecimal numberFind, Model model) {
@@ -112,6 +116,7 @@ public class PizzaController {
 
     @PostMapping("/delete/{name}")
     public String deletePizza(@PathVariable String name, RedirectAttributes redirectAttributes) {
+        offertaRepository.deleteByPizzaName(name);
         pizzaRepository.deleteById(name);
         redirectAttributes.addFlashAttribute("redirectAttribute", "La pizza" + name + "è stato cancellato correttamente");
         return "redirect:/home/pizzaList";
