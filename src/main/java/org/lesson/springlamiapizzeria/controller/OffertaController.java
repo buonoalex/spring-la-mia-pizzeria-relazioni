@@ -38,7 +38,28 @@ public class OffertaController {
     @PostMapping("/create")
     public String saveOffert(@Valid @ModelAttribute("offerta") Offerta formOffert, Model model) {
         Offerta saveOffert = offertaRepository.save(formOffert);
-        return "redirect:/home";
+        return "redirect:/home/pizzaList/details/" + formOffert.getPizza().getName();
+    }
+
+    @GetMapping("/edit/{id}")
+    public String editOffer(@PathVariable int id, Model model) {
+        //Trovare offerta
+        Optional<Offerta> offertaRecovery = offertaRepository.findById(id);
+        //Prendiamo i dati
+        Offerta offerta = offertaRecovery.get();
+        //li passiamo al model
+        model.addAttribute("offerta", offerta);
+
+        return "offerta/editOffert";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String saveEditOffer(@PathVariable int id, Model model, @Valid @ModelAttribute("offerta") Offerta editOffert) {
+
+        Optional<Offerta> offertaRecovery = offertaRepository.findById(id);
+        Offerta offerta = offertaRecovery.get();
+        offertaRepository.save(editOffert);
+        return "redirect:/home/pizzaList/details/" + editOffert.getPizza().getName();
     }
 
 }

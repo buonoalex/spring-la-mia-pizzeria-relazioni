@@ -28,7 +28,7 @@ public class Pizza {
     //Relazioni
 
     @OneToMany(mappedBy = "pizza")
-    private List<Offerta> OffertaList;
+    private List<Offerta> offertaList;
 
     //Costruttori utilizziamo quello di default
 
@@ -68,10 +68,10 @@ public class Pizza {
     }
 
     public List<Offerta> getOffertaList() {
-        return OffertaList;
+        return offertaList;
     }
 
     public void setOffertaList(List<Offerta> offertaList) {
-        OffertaList = offertaList;
+        this.offertaList = offertaList;
     }
 }
