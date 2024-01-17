@@ -51,6 +51,7 @@
                 <th>Data Fine</th>
                 <th>Titolo</th>
                 <th></th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -61,6 +62,11 @@
                 <td>
                     <a th:href="@{/home/offerta/edit/{id}(id=${offerta.id})}" class="btn btn-primary">Modifica</a>
                 </td>
+                <form th:action="@{/home/offerta/delete/{id}(id=${offerta.id})}" method="post">
+                    <td>
+                        <button class="btn btn-primary" type="submit">Elimina</button>
+                    </td>
+                </form>
             </tr>
             </tbody>
         </table>

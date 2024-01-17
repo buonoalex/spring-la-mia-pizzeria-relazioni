@@ -21,18 +21,40 @@
               th:object="${offerta}">
             <div class="col-md-6 col-12">
                 <label for="startDate" class="form-label">Data Inizio</label>
-                <input id="startDate" type="date" class="from-control" th:field="*{startDate}">
+                <input id="startDate" type="date" class="from-control" th:field="*{startDate}"
+                       th:errorClass="is-invalid">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('startDate')}">
+                    <ul>
+                        <li th:each="err : ${#fields.errors('startDate')}" th:text="${err}"></li>
+                    </ul>
+                </div>
             </div>
             <div class="col-md-6 col-12">
                 <label for="endDate" class="form-label">Data Fine</label>
-                <input id="endDate" type="date" class="from-control" th:field="*{endDate}">
+                <input id="endDate" type="date" class="from-control" th:field="*{endDate}" th:errorClass="is-invalid">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('endDate')}">
+                    <ul>
+                        <li th:each="err : ${#fields.errors('endDate')}" th:text="${err}"></li>
+                    </ul>
+                </div>
             </div>
             <div class="col-md-12 col-12">
                 <label for="title" class="form-label text-center">Titolo</label>
-                <textarea id="title" cols="6" rows="3" class="form-control" th:field="*{title}"></textarea>
+                <textarea id="title" cols="6" rows="3" class="form-control" th:field="*{title}"
+                          th:errorClass="is-invalid"></textarea>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('title')}">
+                    <ul>
+                        <li th:each="err : ${#fields.errors('title')}" th:text="${err}"></li>
+                    </ul>
+                </div>
             </div>
             <div class="col-4 text-center pb-3">
                 <button class="btn btn-primary" type="submit">Modifica</button>
+            </div>
+            <div class="col-4 pb-3">
+                <a class="btn btn-primary"
+                   th:href="@{/home/pizzaList/details/{name}(name=${offerta.getPizza().getName()})}">Torna ai dettagli
+                </a>
             </div>
             <input type="hidden" th:field="*{pizza}">
         </form>

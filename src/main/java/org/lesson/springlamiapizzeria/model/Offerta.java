@@ -1,6 +1,8 @@
 package org.lesson.springlamiapizzeria.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 
@@ -12,21 +14,34 @@ public class Offerta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(nullable = false)
+    @NotNull(message = "la data non può essere vuota")
     private LocalDate startDate;
+    @Column(nullable = false)
+    @NotNull(message = "la data non può essere vuota")
     private LocalDate endDate;
     @Lob
+    @Column(nullable = false)
+    @NotEmpty(message = "il titolo è obbligatorio")
     private String title;
 
-    //Relaizoni
+    //Relazioni
     @ManyToOne
     private Pizza pizza;
 
     //Costruttore
 
     //Metodi
+    public boolean Control_date(LocalDate data1, LocalDate data2) {
+        if (data1.isBefore(LocalDate.now()) || (data1.isAfter(data2))) {
+            return true;
+        } else if (data2.isBefore(LocalDate.now()) || (data2.isBefore(data1))) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     //Getter and Setter
-
     public int getId() {
         return id;
     }
