@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -23,6 +24,7 @@ public class Pizza {
     @Column(nullable = false)
     @DecimalMin(value = "0", message = "il prezzo non può essere minore di 0")
     @DecimalMax(value = "15", message = "il prezzo non può essere maggiore di 15")
+    @NotNull(message = "il prezzo non può essere nullo")
     private BigDecimal price;
 
     //Relazioni
@@ -30,7 +32,7 @@ public class Pizza {
     @OneToMany(mappedBy = "pizza")
     private List<Offerta> offertaList;
 
-    @ManyToMany(mappedBy = "ingrediente")
+    @ManyToMany
     private List<Ingrediente> ingredienteList;
 
     //Costruttori utilizziamo quello di default

@@ -62,7 +62,17 @@
                 </ul>
             </div>
         </div>
-
+        <!-- Ingrediente View -->
+        <div class="row ml-3 ">
+            <div class="form-check col-4 p-2" th:each="ing : ${ingredientsList}">
+                <input class="form-check-input"
+                       type="checkbox"
+                       th:value="${ing.id}"
+                       th:id="|ing-${ing.id}|"
+                       th:field="*{ingredienteList}">
+                <label class="form-check-label" th:for="|ing-${ing.id}|" th:text="${ing.name}"></label>
+            </div>
+        </div>
         <div class="col-md-6 col-12 pb-3">
             <button class="btn btn-primary" type="submit">Aggiungi</button>
             <a class="btn btn-primary" th:href="@{/home}">Torna alla home</a>

@@ -2,6 +2,7 @@ package org.lesson.springlamiapizzeria.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -10,13 +11,18 @@ public class Ingrediente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
+
     //Relazioni
-    @ManyToMany(mappedBy = "pizza")
+    @ManyToMany
     private List<Pizza> pizzaList;
 
     //Costruttore
 
     //Metodi
+    public void add(Pizza pizza) {
+        this.pizzaList = new ArrayList<>();
+        this.pizzaList.add(pizza);
+    }
 
     //Getter and Setter
     public String getName() {

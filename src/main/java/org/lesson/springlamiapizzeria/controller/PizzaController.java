@@ -1,7 +1,9 @@
 package org.lesson.springlamiapizzeria.controller;
 
 import jakarta.validation.Valid;
+import org.lesson.springlamiapizzeria.model.Ingrediente;
 import org.lesson.springlamiapizzeria.model.Pizza;
+import org.lesson.springlamiapizzeria.repository.IngredienteRepository;
 import org.lesson.springlamiapizzeria.repository.OffertaRepository;
 import org.lesson.springlamiapizzeria.repository.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,10 @@ public class PizzaController {
 
     @Autowired
     private OffertaRepository offertaRepository;
+
+    @Autowired
+    private IngredienteRepository ingredienteRepository;
+
 
     @GetMapping
     public String pizzaList(@RequestParam(required = false) String nameFind, @RequestParam(required = false) BigDecimal numberFind, Model model) {
@@ -66,14 +72,18 @@ public class PizzaController {
     @GetMapping("/create")
     public String addPizza(Model model) {
         Pizza pizza = new Pizza();
+        List<Ingrediente> ingredienteList = ingredienteRepository.findAll();
         model.addAttribute("pizza", pizza);
+        model.addAttribute("ingredientsList", ingredienteList);
         return "pizza/createPizza";
     }
 
     @PostMapping("/create")
-    public String store(@Valid @ModelAttribute("pizza") Pizza userPizza, BindingResult bindingResult) {
+    public String store(@Valid @ModelAttribute("pizza") Pizza userPizza, BindingResult bindingResult, Model model) {
         // valido i dati del Book, cioè verifico se la mappa BindingResult ha errori
         if (bindingResult.hasErrors()) {
+            List<Ingrediente> ingredienteList = ingredienteRepository.findAll();
+            model.addAttribute("ingredientsList", ingredienteList);
             return "pizza/createPizza";
         }
         Optional<Pizza> pizzaWithName = pizzaRepository.findByName(userPizza.getName());
@@ -92,6 +102,8 @@ public class PizzaController {
     public String edit(@PathVariable String name, Model model) {
         Optional<Pizza> pizzaEdit = pizzaRepository.findByName(name);
         if (pizzaEdit.isPresent()) {
+            List<Ingrediente> ingredienteList = ingredienteRepository.findAll();
+            model.addAttribute("ingredientsList", ingredienteList);
             model.addAttribute("pizza", pizzaEdit.get());
             return "pizza/editPizza";
         } else {
@@ -100,9 +112,11 @@ public class PizzaController {
     }
 
     @PostMapping("/edit/{name}")
-    public String updatePizza(@PathVariable String name, @Valid @ModelAttribute("pizza") Pizza userPizza, BindingResult bindingResult) {
+    public String updatePizza(@PathVariable String name, @Valid @ModelAttribute("pizza") Pizza userPizza, BindingResult bindingResult, Model model) {
         //Verificare se sono validi
         if (bindingResult.hasErrors()) {
+            List<Ingrediente> ingredienteList = ingredienteRepository.findAll();
+            model.addAttribute("ingredientsList", ingredienteList);
             return "pizza/editPizza";
         } else {
             Optional<Pizza> pizzaEdit = pizzaRepository.findByName(name);
