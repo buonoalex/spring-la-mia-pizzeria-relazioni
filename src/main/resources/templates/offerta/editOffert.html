@@ -17,7 +17,7 @@
     </div>
     <div class="row input-group">
         <form th:action="@{/home/offerta/edit/{id}(id=${offerta.id})}" method="post"
-              class="row justify-content-center gy-3"
+              class="row justify-content-center gy-3" id="edit_offerta"
               th:object="${offerta}">
             <div class="col-md-6 col-12">
                 <label for="startDate" class="form-label">Data Inizio</label>
@@ -31,7 +31,8 @@
             </div>
             <div class="col-md-6 col-12">
                 <label for="endDate" class="form-label">Data Fine</label>
-                <input id="endDate" type="date" class="from-control" th:field="*{endDate}" th:errorClass="is-invalid">
+                <input id="endDate" type="date" class="from-control" th:field="*{endDate}"
+                       th:errorClass="is-invalid">
                 <div class="invalid-feedback" th:if="${#fields.hasErrors('endDate')}">
                     <ul>
                         <li th:each="err : ${#fields.errors('endDate')}" th:text="${err}"></li>

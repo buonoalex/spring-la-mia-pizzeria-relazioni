@@ -17,7 +17,7 @@
     </div>
     <div class="row input-group">
         <form th:action="@{/home/offerta/create}" method="post" class="row justify-content-center gy-3"
-              th:object="${offerta}">
+              th:object="${offerta}" id="create_offerta">
             <div class="col-md-6 col-12">
                 <label for="startDate" class="form-label">Data Inizio</label>
                 <input id="startDate" type="date" class="from-control" th:field="*{startDate}"

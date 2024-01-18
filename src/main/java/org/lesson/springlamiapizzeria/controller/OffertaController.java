@@ -41,7 +41,6 @@ public class OffertaController {
     @PostMapping("/create")
     public String saveOffert(@Valid @ModelAttribute("offerta") Offerta formOffert, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("pizza", formOffert.getPizza());
             return "offerta/createOffert";
         }
         //Logica controllo date
@@ -67,14 +66,23 @@ public class OffertaController {
         Offerta offerta = offertaRecovery.get();
         //li passiamo al model
         model.addAttribute("offerta", offerta);
-
         return "offerta/editOffert";
     }
 
     @PostMapping("/edit/{id}")
-    public String saveEditOffer(@PathVariable int id, @Valid @ModelAttribute("offerta") Offerta editOffert, BindingResult bindingResult) {
+    public String saveEditOffer(@PathVariable int id, @Valid @ModelAttribute("offerta") Offerta editOffert, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             return "offerta/editOffert";
+        }
+        //Logica controllo date
+        if (editOffert.getStartDate().isBefore(LocalDate.now())) {
+            bindingResult.addError(new FieldError("offerta", "startDate", editOffert.getStartDate(), false, null, null,
+                    "la data è gia passata"));
+            return "offerta/createOffert";
+        } else if (editOffert.getStartDate().isAfter(editOffert.getEndDate())) {
+            bindingResult.addError(new FieldError("offerta", "startDate", editOffert.getStartDate(), false, null, null,
+                    "la data selezionata non può accadere dopo la fine dell'offerta"));
+            return "offerta/createOffert";
         } else {
             offertaRepository.save(editOffert);
             return "redirect:/home/pizzaList/details/" + editOffert.getPizza().getName();
