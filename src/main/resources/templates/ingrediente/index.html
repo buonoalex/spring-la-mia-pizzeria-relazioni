@@ -28,10 +28,14 @@
             <td th:text="${ing.id}"></td>
             <td th:text="${ing.name}"></td>
             <td>
-                <a th:href="@{/home}" class="btn btn-primary">Modifica</a>
+                <a th:href="@{/home/Ingredients/edit/{id}(id=${ing.id})}" class="btn btn-primary">Modifica</a>
             </td>
             <td>
-                <a th:href="@{/home}" class="btn btn-primary">Elimina</a>
+                <form th:action="@{/home/Ingredients/delete/{id}(id=${ing.id})}"
+                      method="post">
+                    <button type="submit" class="btn btn-primary">Elimina</button>
+
+                </form>
             </td>
         </tr>
         </tbody>
@@ -41,7 +45,8 @@
             <a th:href="@{/home}" class="btn btn-primary">Torna alla home</a>
         </div>
         <div class="col-4 text-center">
-            <a th:href="@{/home}" class="btn btn-primary">Aggiungi Ingrediente</a>
+            <a th:href="@{/home/Ingredients/create}" class="btn btn-primary">Aggiungi
+                Ingrediente</a>
         </div>
     </div>
 </div>
